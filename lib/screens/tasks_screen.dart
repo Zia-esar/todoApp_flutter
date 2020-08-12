@@ -1,34 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 import 'package:todoey_flutter/screens/add_task_screen.dart';
-import 'package:todoey_flutter/models/task.dart';
+import 'package:todoey_flutter/models/task_data.dart';
+import 'package:provider/provider.dart';
 
-class TasksScreen extends StatefulWidget {
-  @override
-  _TasksScreenState createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'do assignment'),
-    Task(name: 'take quiz'),
-    Task(name: 'do exercise'),
-  ];
-
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          showModalBottomSheet(context: context, builder: (context) => AddTaskScreen(
-            (newTaskTitle){
-              setState(() {
-                tasks.add(Task(name: newTaskTitle));
-              });
-              Navigator.pop(context);
-            }
-          ));
+        onPressed: () {
+          showModalBottomSheet(
+              context: context, builder: (context) => AddTaskScreen());
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(
@@ -62,7 +46,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -82,7 +66,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: TasksList(tasks),
+              child: TasksList(),
             ),
           ),
         ],
@@ -90,6 +74,3 @@ class _TasksScreenState extends State<TasksScreen> {
     );
   }
 }
-
-
-
